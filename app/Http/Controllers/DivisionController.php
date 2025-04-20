@@ -36,12 +36,12 @@ class DivisionController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('pages.divisions.create')->withErrors($validator)->withInput();
+            return redirect()->route('divisions.create')->withErrors($validator)->withInput();
         }
 
         Division::create($request->all());
 
-        return redirect()->route('pages.divisions.index')->with('success', 'Divisi berhasil ditambahkan');
+        return redirect()->route('divisions.index')->with('success', 'Divisi berhasil ditambahkan');
     }
 
     /**
@@ -71,12 +71,12 @@ class DivisionController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('pages.divisions.index', $division->id)->withErrors($validator)->withInput();
+            return redirect('divisions.index', $division->id)->withErrors($validator)->withInput();
         }
 
         $division->update($request->all());
 
-        return redirect()->route('pages.divisions.index')->with('success', 'Divisi berhasil diperbaharui');
+        return redirect()->route('divisions.index')->with('success', 'Divisi berhasil diperbaharui');
     }
 
     /**
@@ -86,6 +86,6 @@ class DivisionController extends Controller
     {
         $division->delete();
 
-        return redirect()->route('pages.divisions.index')->with('success', 'Divisi berhasil dihapus');
+        return redirect()->route('divisions.index')->with('success', 'Divisi berhasil dihapus');
     }
 }

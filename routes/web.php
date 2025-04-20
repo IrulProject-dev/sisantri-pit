@@ -29,18 +29,35 @@ Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/test-gate', function () {
+    $user = auth()->user();
+    return [
+        'user_role' => $user->role,
+        'can_admin' => Gate::allows('admin'),
+    ];
+});
+
+Route::get('/debug-role', function () {
+    $user = auth()->user();
+    return [
+        'role'        => $user->role,
+        'role_length' => strlen($user->role),
+        'char_codes'  => array_map('ord', str_split($user->role)),
+        'exact_value' => '"' . $user->role . '"',
+        'can_admin'   => Gate::allows('admin'),
+        'gate_check'  => strtolower(trim($user->role)) === 'admin',
+    ];
+});
+
 // Protected routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Admin only routes
     Route::middleware(['can:admin'])->group(function () {
-        // Batches Route
         Route::resource('batches', BatchController::class);
-        // Divisions Route
         Route::resource('divisions', DivisionController::class);
+        Route::resource('santris', SantriController::class);
     });
 
-    // Santris route
-    Route::resource('santris', SantriController::class);
 });

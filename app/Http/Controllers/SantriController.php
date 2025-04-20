@@ -89,7 +89,7 @@ class SantriController extends Controller
 
         User::create($data);
 
-        return redirect()->route('pages.santris.index')->with('success', "Santri berhasil ditambahkan");
+        return redirect()->route('santris.index')->with('success', "Santri berhasil ditambahkan");
     }
 
     /**
@@ -166,7 +166,7 @@ class SantriController extends Controller
 
         $santri->update($data);
 
-        return redirect()->route('pages.santris.index')->with('success', 'Santri berhasil diperbarui');
+        return redirect()->route('santris.index')->with('success', 'Santri berhasil diperbarui');
     }
 
     /**
@@ -184,6 +184,6 @@ class SantriController extends Controller
 
         $santri->delete();
 
-        return redirect()->route('pages.santris.index')->with('success', 'Santri berhasil dihapus');
+        return redirect()->route('santris.index')->with('success', 'Santri berhasil dihapus');
     }
 }

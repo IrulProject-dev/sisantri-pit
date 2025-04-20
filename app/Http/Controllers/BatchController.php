@@ -37,12 +37,12 @@ class BatchController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('pages.batches.create')->withErrors($validator)->withInput();
+            return redirect()->route('batches.create')->withErrors($validator)->withInput();
         }
 
         Batch::create($request->all());
 
-        return redirect()->route('pages.batches.index')->with('success', 'Angkatan berhasil ditambahkan');
+        return redirect()->route('batches.index')->with('success', 'Angkatan berhasil ditambahkan');
     }
 
     /**
@@ -73,12 +73,12 @@ class BatchController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('pages.batches.edit', $batch->id)->withErrors($validator)->withInput();
+            return redirect('batches.edit', $batch->id)->withErrors($validator)->withInput();
         }
 
         $batch->update($request->all());
 
-        return redirect()->route('pages.batches.index')->with('success', 'Angkatan berhasil diperbarui');
+        return redirect()->route('batches.index')->with('success', 'Angkatan berhasil diperbarui');
     }
 
     /**
@@ -88,6 +88,6 @@ class BatchController extends Controller
     {
         $batch->delete();
 
-        return redirect()->route('pages.batches.index')->with('success', 'Angkatan berhasil dihapus');
+        return redirect()->route('batches.index')->with('success', 'Angkatan berhasil dihapus');
     }
 }

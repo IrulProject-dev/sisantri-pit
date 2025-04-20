@@ -9,7 +9,7 @@
                 <h1 class="text-2xl font-bold text-gray-900">Daftar Santri</h1>
                 <p class="text-gray-600">Kelola data santri Pondok IT Indonesia.</p>
             </div>
-            <a href="{{ route('pages.santris.create') }}"
+            <a href="{{ route('santris.create') }}"
                 class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">
                 Tambah Santri
             </a>
@@ -25,8 +25,7 @@
         <div class="bg-white shadow rounded-md overflow-hidden border border-gray-200 mb-6">
             <div class="p-4">
                 <h2 class="text-lg font-medium text-gray-900 mb-3">Filter Santri</h2>
-                <form action="{{ route('pages.santris.index') }}" method="GET"
-                    class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <form action="{{ route('santris.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label for="division_id" class="block text-sm font-medium text-gray-700 mb-1">Jurusan</label>
                         <select name="division_id" id="division_id"
@@ -58,7 +57,7 @@
                             class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 mr-2">
                             Filter
                         </button>
-                        <a href="{{ route('pages.santris.index') }}"
+                        <a href="{{ route('santris.index') }}"
                             class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">
                             Reset
                         </a>
@@ -122,7 +121,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex space-x-2">
-                                        <a href="{{ route('pages.santris.show', $santri->id) }}"
+                                        <a href="{{ route('santris.show', $santri->id) }}"
                                             class="text-blue-600 hover:text-blue-900 relative group">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">

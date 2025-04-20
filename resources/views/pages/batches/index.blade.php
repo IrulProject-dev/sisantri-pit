@@ -9,7 +9,7 @@
                 <h1 class="text-2xl font-bold text-gray-900">Daftar Angkatan</h1>
                 <p class="text-gray-600">Kelola data angkatan Pondok IT Indonesia.</p>
             </div>
-            <a href="{{ route('pages.batches.create') }}"
+            <a href="{{ route('batches.create') }}"
                 class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">
                 Tambah Angkatan
             </a>
@@ -63,7 +63,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex justify-center space-x-2">
-                                        <a href="{{ route('pages.batches.show', $batch->id) }}"
+                                        <a href="{{ route('batches.show', $batch->id) }}"
                                             class="text-blue-600 hover:text-blue-900 relative group">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -75,7 +75,7 @@
                                             <span
                                                 class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs font-medium text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">Lihat</span>
                                         </a>
-                                        <a href="{{ route('pages.batches.edit', $batch->id) }}"
+                                        <a href="{{ route('batches.edit', $batch->id) }}"
                                             class="text-yellow-600 hover:text-yellow-900 relative group">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
