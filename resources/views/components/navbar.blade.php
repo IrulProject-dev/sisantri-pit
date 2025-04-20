@@ -65,14 +65,14 @@
 
                     <!-- Dropdown menu -->
                     <div id="user-dropdown"
-                        class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-border ring-opacity-5 focus:outline-none"
                         role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             role="menuitem">Your Profile</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
-                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
                                 role="menuitem">Logout</button>
                         </form>
                     </div>
@@ -84,12 +84,22 @@
     <!-- Mobile menu, show/hide based on menu state -->
     <div id="mobile-menu" class="hidden md:hidden w-full z-50 top-[66px] bg-white shadow-lg">
         <div class="space-y-1 px-2 pb-3 pt-2">
-            @foreach (app(\App\View\Components\Navigation::class)->getNavigationItems() as $item)
+            @php
+                $navigationItems = app(\App\View\Components\Navigation::class)->getNavigationItems();
+            @endphp
+
+            @foreach ($navigationItems as $item)
                 @php
                     $isActive = request()->routeIs($item['route'] . '*');
                 @endphp
                 <a href="{{ isset($item['route']) ? route($item['route']) : '#' }}"
                     class="block px-3 py-2 rounded-md text-base font-medium {{ $isActive ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-secondary' }}">
+                    @if (isset($item['icon']))
+                        <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            {!! $item['icon'] !!}
+                        </svg>
+                    @endif
                     {{ $item['name'] }}
                 </a>
             @endforeach

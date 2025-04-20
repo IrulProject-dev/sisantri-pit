@@ -20,6 +20,6 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboard', compact('santriCount', 'divisionCount', 'batchCount', 'recentSantris'));
+        return view('pages.dashboard', compact('santriCount', 'divisionCount', 'batchCount', 'recentSantris'));
     }
 }

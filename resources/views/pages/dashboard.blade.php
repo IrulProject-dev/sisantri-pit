@@ -108,7 +108,7 @@
 
                     @if (count($recentSantris) > 0)
                         <div class="mt-6 text-right border-t border-gray-200 pt-5">
-                            <a href="{{ route('pages.santris.index') }}"
+                            <a href="{{ route('santris.index') }}"
                                 class="text-sm font-medium text-primary hover:text-primary/80">
                                 Lihat semua santri →
                             </a>

@@ -37,19 +37,19 @@
                     <label for="email" class="block text-sm font-medium text-foreground mb-2">Email</label>
                     <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
                         placeholder="user@email.com"
-                        class="py-2 px-4 block w-full border rounded-md text-sm focus:border-primary focus:ring-primary focus:ring-opacity-10 focus:outline-none focus:shadow-md">
+                        class="py-2 px-4 block w-full border border-border rounded-md text-sm focus:border-primary focus:ring-primary focus:ring-opacity-10 focus:outline-none focus:shadow-md">
                 </div>
 
                 <div class="mb-6">
                     <label for="password" class="block text-sm font-medium text-foreground mb-2">Password</label>
                     <input type="password" id="password" name="password" required autocomplete="off"
                         autocomplete="new-password" aria-autocomplete="none" placeholder="··········"
-                        class="py-2 px-4 block w-full border rounded-md text-sm focus:border-primary focus:ring-primary focus:ring-opacity-10 focus:outline-none focus:shadow-md">
+                        class="py-2 px-4 block w-full border border-border rounded-md text-sm focus:border-primary focus:ring-primary focus:ring-opacity-10 focus:outline-none focus:shadow-md">
                 </div>
 
                 <div class="mb-6">
                     <button type="submit"
-                        class="w-full py-2 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary text-primary-foreground hover:bg-primary/80 disabled:opacity-50 disabled:pointer-events-none">
+                        class="w-full py-2 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary text-primary-foreground hover:bg-primary/80 disabled:opacity-50  hover:cursor-pointer disabled:pointer-events-none">
                         Login
                     </button>
                 </div>
