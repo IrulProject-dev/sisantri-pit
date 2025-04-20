@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->foreignId('batch_id')->nullable()->constrained('batches')->onDelete('set null');
+            $table->foreignId('division_id')->nullable()->constrained('divisions')->onDelete('set null');
+            $table->enum('role', ['admin', 'student', 'teacher', 'staff'])->default('student');
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
