@@ -13,16 +13,33 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('nis')->unique()->nullable()->comment('For santri role');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('batch_id')->nullable()->constrained('batches')->onDelete('set null');
-            $table->foreignId('division_id')->nullable()->constrained('divisions')->onDelete('set null');
-            $table->enum('role', ['admin', 'student', 'teacher', 'staff'])->default('student');
+            $table->foreignId('batch_id')->nullable()->constrained('batches')->onDelete('restrict');
+            $table->foreignId('division_id')->nullable()->constrained('divisions')->onDelete('restrict');
+            $table->enum('role', ['admin', 'mentor', 'santri', 'santri_mentor']);
+            $table->date('date_of_birth')->nullable()->comment('For santri role');
+            $table->enum('gender', ['male', 'female'])->nullable()->comment('For santri role');
+            $table->text('address')->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->string('father_name')->nullable()->comment('For santri role');
+            $table->string('father_phone', 20)->nullable()->comment('For santri role');
+            $table->string('mother_name')->nullable()->comment('For santri role');
+            $table->string('mother_phone', 20)->nullable()->comment('For santri role');
             $table->boolean('is_active')->default(true);
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('photo')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            // Add indexes for better performance
+            $table->index('role');
+            $table->index('division_id');
+            $table->index('batch_id');
+
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

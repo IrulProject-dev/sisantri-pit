@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code')->unique();
+            $table->string('code')->unique()->nullable();
             $table->text('description')->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            $table->date('entry_date')->nullable();
+            $table->date('graduation_date')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
