@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="flex items-center justify-end space-x-3">
-                    <a href="{{ route('pages.batches.index') }}"
+                    <a href="{{ route('batches.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Batal</a>
                     <button type="submit"
                         class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">Perbarui</button>

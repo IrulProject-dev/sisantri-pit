@@ -8,7 +8,7 @@
             <h1 class="text-2xl font-bold text-gray-900">Tambah Angkatan Baru</h1>
             <p class="text-gray-600">Silakan isi form di bawah ini untuk menambahkan angkatan baru.</p>
         </div>
-        <div class="bg-white border shadow-sm rounded-lg p-6">
+        <div class="bg-white border border-border shadow-sm rounded-lg p-6">
             <form action="{{ route('batches.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
@@ -40,7 +40,7 @@
                     @enderror
                 </div>
                 <div class="flex items-center justify-end space-x-3">
-                    <a href="{{ route('pages.batches.index') }}"
+                    <a href="{{ route('batches.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Batal</a>
                     <button type="submit"
                         class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">Simpan</button>

@@ -76,9 +76,9 @@
                 </div>
 
                 <div class="mt-6 flex items-center justify-end space-x-3">
-                    <a href="{{ route('pages.batches.index') }}"
+                    <a href="{{ route('batches.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Kembali</a>
-                    <a href="{{ route('pages.batches.edit', $batch->id) }}"
+                    <a href="{{ route('batches.edit', $batch->id) }}"
                         class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</a>
                     <form action="{{ route('batches.destroy', $batch->id) }}" method="POST" class="inline"
                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus angkatan ini?');">

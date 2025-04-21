@@ -120,7 +120,7 @@
 
                 <!-- Tombol Aksi -->
                 <div class="mt-8 flex justify-end space-x-3">
-                    <a href="{{ route('pages.santris.index') }}"
+                    <a href="{{ route('santris.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Kembali</a>
                     <a href="{{ route('santris.edit', $santri->id) }}"
                         class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</a>

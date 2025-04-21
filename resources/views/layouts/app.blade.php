@@ -28,8 +28,10 @@
 
             <!-- Page Content -->
             <main id="main-content"
-                class="flex-1 overflow-y-auto p-6 pb-4 bg-secondary/20 transition-all duration-300 ease-in-out">
-                @yield('content')
+                class="flex-1 overflow-y-auto p-6 pb-4 bg-secondary/20 transition-all duration-300 ease-in-out flex flex-col justify-between">
+                <div>
+                    @yield('content')
+                </div>
 
                 <footer class="mt-6 text-muted-foreground text-sm">
                     Presented by Programmer Division Pondok IT Indonesia.

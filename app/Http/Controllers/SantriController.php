@@ -115,7 +115,7 @@ class SantriController extends Controller
         $divisions = Division::all();
         $batches   = Batch::all();
 
-        return view('santris.edit', compact('santri', 'divisions', 'batches'));
+        return view('pages.santris.edit', compact('santri', 'divisions', 'batches'));
     }
 
     /**

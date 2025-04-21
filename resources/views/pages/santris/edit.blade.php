@@ -8,7 +8,7 @@
             <h1 class="text-2xl font-bold text-gray-900">Edit Data Santri</h1>
             <p class="text-gray-600">Silakan edit form di bawah ini untuk memperbarui data santri.</p>
         </div>
-        <div class="bg-white border shadow-sm rounded-lg p-6">
+        <div class="bg-white border border-border shadow-sm rounded-lg p-6">
             <form action="{{ route('santris.update', $santri->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -231,7 +231,7 @@
                 </div>
 
                 <div class="flex items-center justify-end space-x-3 mt-6">
-                    <a href="{{ route('pages.santris.index') }}"
+                    <a href="{{ route('santris.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Batal</a>
                     <button type="submit"
                         class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">Perbarui</button>

@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between h-16">
             <!-- Sidebar toggle button (visible on desktop) -->
             <button id="sidebar-toggle" type="button"
-                class="hidden md:flex text-gray-500 hover:text-gray-600 focus:outline-none">
+                class="hidden md:flex text-gray-500 hover:text-gray-600 focus:outline-none cursor-pointer">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
@@ -14,7 +14,7 @@
             <!-- Mobile menu button -->
             <div class="flex items-center md:hidden">
                 <button type="button"
-                    class="text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+                    class="text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary cursor-pointer"
                     id="mobile-menu-toggle" aria-controls="mobile-menu" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
                     <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
