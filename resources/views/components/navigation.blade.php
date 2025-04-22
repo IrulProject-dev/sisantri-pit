@@ -2,7 +2,9 @@
 
 @foreach ($items as $item)
     @php
-        $isActive = request()->routeIs($item['route'] . '*');
+        // $isActive = request()->routeIs($item['route'] . '*');
+        $routePrefix = explode('.', $item['route'])[0]; // gets '[routes]' from '[routes].index'
+        $isActive = request()->routeIs($routePrefix . '.*');
     @endphp
     <li>
         <a href="{{ isset($item['route']) ? route($item['route']) : '#' }}"
