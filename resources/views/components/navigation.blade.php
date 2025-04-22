@@ -4,7 +4,7 @@
     @php
         // $isActive = request()->routeIs($item['route'] . '*');
         $routePrefix = explode('.', $item['route'])[0]; // gets '[routes]' from '[routes].index'
-        $isActive = request()->routeIs($routePrefix . '.*');
+        $isActive = request()->routeIs($routePrefix . '.*') || request()->routeIs($item['route']);
     @endphp
     <li>
         <a href="{{ isset($item['route']) ? route($item['route']) : '#' }}"
