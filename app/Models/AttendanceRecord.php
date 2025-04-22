@@ -20,7 +20,7 @@ class AttendanceRecord extends Model
         'date',
         'status',
         'notes',
-        'recorder_by',
+        'recorded_by',
     ];
 
     /**
@@ -49,10 +49,10 @@ class AttendanceRecord extends Model
     }
 
     /**
-     * Get the user (mentor) who record this attendace.
+     * Get the user (mentor) who recorded this attendance.
      */
-    public function recorded(): BelongsTo
+    public function recorder(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'recorder_by');
+        return $this->belongsTo(User::class, 'recorded_by');
     }
 }
