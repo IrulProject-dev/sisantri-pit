@@ -21,6 +21,16 @@ class SessionType extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'start_time' => 'datetime:H:i',
+        'end_time'   => 'datetime:H:i',
+    ];
+
+    /**
      * Get the attendance records for this session type.
      */
     public function attendanceRecords(): HasMany
