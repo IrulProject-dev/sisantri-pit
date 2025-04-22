@@ -40,6 +40,8 @@ class SessionTypeController extends Controller
             return redirect()->route('session-types.create')->withErrors($validator)->withInput();
         }
 
+        SessionType::create($request->all());
+
         return redirect()->route('session-types.index')->with('success', 'Sesi absensi berhasil ditambahkan');
     }
 
