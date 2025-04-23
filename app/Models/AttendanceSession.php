@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SessionType extends Model
+class AttendanceSession extends Model
 {
     use HasFactory;
 
@@ -33,8 +33,8 @@ class SessionType extends Model
     /**
      * Get the attendance records for this session type.
      */
-    public function attendanceRecords(): HasMany
+    public function attendances(): HasMany
     {
-        return $this->hasMany(AttendanceRecord::class);
+        return $this->hasMany(Attendance::class);
     }
 }

@@ -19,7 +19,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('session-types.store') }}" method="POST">
+            <form action="{{ route('attendance-sessions.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Sesi Absensi</label>
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="flex items-center justify-end space-x-3">
-                    <a href="{{ route('session-types.index') }}"
+                    <a href="{{ route('attendance-sessions.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Batal</a>
                     <button type="submit"
                         class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">Simpan</button>

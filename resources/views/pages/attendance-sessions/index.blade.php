@@ -9,7 +9,7 @@
                 <h1 class="text-2xl font-bold text-gray-900">Daftar Sesi Absensi</h1>
                 <p class="text-gray-600">Kelola data sesi absensi Pondok IT Indonesia.</p>
             </div>
-            <a href="{{ route('session-types.create') }}"
+            <a href="{{ route('attendance-sessions.create') }}"
                 class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">
                 Tambah Sesi Absensi
             </a>
@@ -53,23 +53,23 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse($sessionTypes as $index => $sessionType)
+                        @forelse($attendanceSessions as $index => $attendanceSession)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $index + $sessionTypes->firstItem() }}
+                                    {{ $index + $attendanceSessions->firstItem() }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {{ $sessionType->name }}
+                                    {{ $attendanceSession->name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $sessionType->start_time ? $sessionType->start_time->format('H:i') : '-' }}
+                                    {{ $attendanceSession->start_time ? $attendanceSession->start_time->format('H:i') : '-' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $sessionType->end_time ? $sessionType->end_time->format('H:i') : '-' }}
+                                    {{ $attendanceSession->end_time ? $attendanceSession->end_time->format('H:i') : '-' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex justify-center space-x-2">
-                                        <a href="{{ route('session-types.show', $sessionType->id) }}"
+                                        <a href="{{ route('attendance-sessions.show', $attendanceSession->id) }}"
                                             class="text-blue-600 hover:text-blue-900 relative group">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +81,7 @@
                                             <span
                                                 class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs font-medium text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">Lihat</span>
                                         </a>
-                                        <a href="{{ route('session-types.edit', $sessionType->id) }}"
+                                        <a href="{{ route('attendance-sessions.edit', $attendanceSession->id) }}"
                                             class="text-yellow-600 hover:text-yellow-900 relative group">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -91,8 +91,8 @@
                                             <span
                                                 class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs font-medium text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">Edit</span>
                                         </a>
-                                        <form action="{{ route('session-types.destroy', $sessionType->id) }}" method="POST"
-                                            class="inline relative group"
+                                        <form action="{{ route('attendance-sessions.destroy', $attendanceSession->id) }}"
+                                            method="POST" class="inline relative group"
                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus tipe sesi ini?');">
                                             @csrf
                                             @method('DELETE')
@@ -122,7 +122,7 @@
         </div>
 
         <div class="mt-4">
-            {{ $sessionTypes->links() }}
+            {{ $attendanceSessions->links() }}
         </div>
     </div>
 @endsection

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AttendanceRecord extends Model
+class Attendance extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class AttendanceRecord extends Model
      */
     protected $fillable = [
         'user_id',
-        'session_type_id',
+        'attendance_session_id',
         'date',
         'status',
         'notes',
@@ -43,9 +43,9 @@ class AttendanceRecord extends Model
     /**
      * Get the session type associated with this attendance record.
      */
-    public function sessionType(): BelongsTo
+    public function attendanceSession(): BelongsTo
     {
-        return $this->belongsTo(SessionType::class);
+        return $this->belongsTo(AttendanceSession::class);
     }
 
     /**

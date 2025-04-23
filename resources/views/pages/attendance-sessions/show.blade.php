@@ -53,12 +53,12 @@
                 </div>
 
                 <div class="mt-6 flex items-center justify-end space-x-3">
-                    <a href="{{ route('session-types.index') }}"
+                    <a href="{{ route('attendance-sessions.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Kembali</a>
-                    <a href="{{ route('session-types.edit', $sessionType->id) }}"
+                    <a href="{{ route('attendance-sessions.edit', $sessionType->id) }}"
                         class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</a>
-                    <form action="{{ route('session-types.destroy', $sessionType->id) }}" method="POST" class="inline"
-                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus tipe sesi ini?');">
+                    <form action="{{ route('attendance-sessions.destroy', $sessionType->id) }}" method="POST"
+                        class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus tipe sesi ini?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit"

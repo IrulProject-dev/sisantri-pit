@@ -102,14 +102,14 @@ class User extends Authenticatable
      */
     public function attendanceRecords(): HasMany
     {
-        return $this->hasMany(AttendanceRecord::class);
+        return $this->hasMany(Attendance::class);
     }
 
     /**
-     * Get the attendance records recorded by this user (as a mentor).
+     * Get the attendancerecorded by this user (as a mentor).
      */
     public function recordAttendances(): HasMany
     {
-        return $this->hasMany(AttendanceRecord::class);
+        return $this->hasMany(Attendance::class);
     }
 }

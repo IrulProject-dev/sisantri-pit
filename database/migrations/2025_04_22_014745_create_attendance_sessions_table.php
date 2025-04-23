@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('session_types', function (Blueprint $table) {
+        Schema::create('attendance_sessions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->time('start_time')->nullable();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('session_types');
+        Schema::dropIfExists('attendance_sessions');
     }
 };

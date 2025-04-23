@@ -1,10 +1,10 @@
 <?php
 namespace Database\Seeders;
 
-use App\Models\SessionType;
+use App\Models\AttendanceSession;
 use Illuminate\Database\Seeder;
 
-class SessionTypeSeeder extends Seeder
+class AttendanceSessionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -35,7 +35,7 @@ class SessionTypeSeeder extends Seeder
         ];
 
         foreach ($sessionTypes as $sessionType) {
-            SessionType::create($sessionType);
+            AttendanceSession::create($sessionType);
         }
     }
 }

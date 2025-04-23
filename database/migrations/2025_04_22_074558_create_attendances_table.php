@@ -11,21 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // First create the attendance_status enum type if using PostgreSQL
-        DB::statement("CREATE TYPE attendance_status AS ENUM ('hadir', 'izin', 'sakit', 'terlambat', 'piket')");
+        // First create the attendance_status enum type if using PostgreSQL and it doesn't exist
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement("
+                DO $$
+                BEGIN
+                    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'attendance_status') THEN
+                        CREATE TYPE attendance_status AS ENUM ('hadir', 'izin', 'sakit', 'alfa', 'terlambat', 'piket');
+                    END IF;
+                END$$;
+            ");
+        }
 
-        Schema::create('attendance_records', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('session_type_id')->constrained()->onDelete('cascade');
+            $table->foreignId('attendance_session_id')->constrained()->onDelete('cascade');
             $table->date('date');
 
             // For PostgreSQL, use the custom type
             if (DB::connection()->getDriverName() === 'pgsql') {
-                $table->enum('status', ['hadir', 'izin', 'sakit', 'terlambat', 'piket'])->nullable(false);
+                $table->enum('status', ['hadir', 'izin', 'sakit', 'alfa', 'terlambat', 'piket'])->nullable(false);
             } else {
                 // For MySQL or other databases, use regular enum
-                $table->enum('status', ['hadir', 'izin', 'sakit', 'terlambat', 'piket'])->nullable(false);
+                $table->enum('status', ['hadir', 'izin', 'sakit', 'alfa', 'terlambat', 'piket'])->nullable(false);
             }
 
             $table->string('notes')->nullable();
@@ -39,7 +48,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendance_records');
+        Schema::dropIfExists('attendances');
 
         // Drop the custom type if using PostgreSQL
         if (DB::connection()->getDriverName() === 'pgsql') {

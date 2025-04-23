@@ -19,12 +19,12 @@
                 </div>
             @endif
 
-            <form action="{{ route('session-types.update', $sessionType->id) }}" method="POST">
+            <form action="{{ route('attendance-sessions.update', $attendanceSession->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Sesi Absensi</label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $sessionType->name) }}"
+                    <input type="text" name="name" id="name" value="{{ old('name', $attendanceSession->name) }}"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm"
                         placeholder="Contoh: Sesi Pagi" required>
                     @error('name')
@@ -35,7 +35,7 @@
                 <div class="mb-4">
                     <label for="start_time" class="block text-sm font-medium text-gray-700 mb-1">Waktu Mulai</label>
                     <input type="time" name="start_time" id="start_time"
-                        value="{{ old('start_time', $sessionType->start_time ? $sessionType->start_time->format('H:i') : '') }}"
+                        value="{{ old('start_time', $attendanceSession->start_time ? $attendanceSession->start_time->format('H:i') : '') }}"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm">
                     @error('start_time')
                         <p class="text-red-500 text-xs mt-1">*{{ $message }}</p>
@@ -45,7 +45,7 @@
                 <div class="mb-4">
                     <label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">Waktu Selesai</label>
                     <input type="time" name="end_time" id="end_time"
-                        value="{{ old('end_time', $sessionType->end_time ? $sessionType->end_time->format('H:i') : '') }}"
+                        value="{{ old('end_time', $attendanceSession->end_time ? $attendanceSession->end_time->format('H:i') : '') }}"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm">
                     @error('end_time')
                         <p class="text-red-500 text-xs mt-1">*{{ $message }}</p>
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="flex items-center justify-end space-x-3">
-                    <a href="{{ route('session-types.index') }}"
+                    <a href="{{ route('attendance-sessions.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Batal</a>
                     <button type="submit"
                         class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">Perbarui</button>
