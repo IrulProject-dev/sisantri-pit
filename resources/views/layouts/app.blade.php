@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'SiSantri PIT')</title>
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <!-- Preline UI -->
     <link href="https://cdn.jsdelivr.net/npm/preline@2.0.2/dist/preline.min.css" rel="stylesheet">

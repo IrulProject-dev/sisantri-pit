@@ -5,6 +5,7 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\SantriController;
+use App\Http\Controllers\SessionTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('batches', BatchController::class);
         Route::resource('divisions', DivisionController::class);
         Route::resource('santris', SantriController::class);
+        Route::resource('session-types', SessionTypeController::class);
     });
 
 });

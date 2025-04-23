@@ -3,6 +3,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -94,5 +95,21 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    /**
+     * Get the attendance records for this user (as a santri).
+     */
+    public function attendanceRecords(): HasMany
+    {
+        return $this->hasMany(AttendanceRecord::class);
+    }
+
+    /**
+     * Get the attendance records recorded by this user (as a mentor).
+     */
+    public function recordAttendances(): HasMany
+    {
+        return $this->hasMany(AttendanceRecord::class);
     }
 }

@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             DivisionSeeder::class,
             BatchSeeder::class,
             UserSeeder::class,
+            SessionTypeSeeder::class,
         ]);
     }
 }
