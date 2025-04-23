@@ -3,9 +3,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\AttendanceSession;
+use App\Models\Batch;
+use App\Models\Division;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends Controller
@@ -17,48 +18,47 @@ class AttendanceController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Attendance::with(['user', 'session', 'recorder']);
+        $query = Attendance::query()
+            ->with(['user.division', 'user.batch', 'attendanceSession']);
 
-        // Apply filters if provided
-        if ($request->has('user_id') && $request->user_id) {
-            $query->where('user_id', $request->user_id);
-        }
-
-        if ($request->has('date') && $request->date) {
-            $query->whereDate('date', $request->date);
-        }
-
-        if ($request->has('session_id') && $request->session_id) {
-            $query->where('session_id', $request->session_id);
-        }
-
-        if ($request->has('status') && $request->status) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->has('division_id') && $request->division_id) {
-            // Assuming users belong to divisions
+        // Filter by division
+        if ($request->filled('division_id')) {
             $query->whereHas('user', function ($q) use ($request) {
                 $q->where('division_id', $request->division_id);
             });
         }
 
-        // Default sorting by date (newest first)
-        $query->orderBy('date', 'desc');
-
-        // Allow custom sorting
-        if ($request->has('sort_by') && $request->has('sort_order')) {
-            $query->orderBy($request->sort_by, $request->sort_order);
+        // Filter by batch
+        if ($request->filled('batch_id')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('batch_id', $request->batch_id);
+            });
         }
 
-        $attendances = $query->paginate(15)->appends($request->query());
+        // Filter by date
+        if ($request->filled('date')) {
+            $query->where('date', $request->date);
+        } else {
+            $query->where('date', date('Y-m-d'));
 
-        // Get data for filters
-        $users        = User::where('role', 'santri')->get();
-        $sessionTypes = AttendanceSession::all();
-        $statuses     = $this->statuses;
+        }
 
-        return view('pages.attendances.index', compact('attendances', 'users', 'sessionTypes', 'statuses'));
+        // Filter by session
+        if ($request->filled('attendance_session_id')) {
+            $query->where('attendance_session_id', $request->attendance_session_id);
+        }
+
+        $attendances       = $query->latest()->paginate(15);
+        $divisions         = Division::orderBy('name')->get();
+        $batches           = Batch::orderBy('name')->get();
+        $attendanceSession = AttendanceSession::orderBy('name')->get();
+
+        return view('pages.attendances.index', compact(
+            'attendances',
+            'divisions',
+            'batches',
+            'attendanceSession'
+        ));
     }
 
     /**
@@ -66,14 +66,43 @@ class AttendanceController extends Controller
      */
     public function create(Request $request)
     {
-        $users        = User::where('role', 'santri')->get();
-        $sessionTypes = AttendanceSession::all();
-        $statuses     = $this->statuses;
+        $divisions    = Division::orderBy('name')->get();
+        $batches      = Batch::orderBy('name')->get();
+        $sessionTypes = AttendanceSession::orderBy('name')->get();
+        $statuses     = ['hadir', 'sakit', 'izin', 'alfa', 'terlambat', 'piket'];
 
-        // For batch creation, we'll use the same form but with multiple selection
-        $isBatch = $request->has('batch') && $request->batch;
+        $users               = collect();
+        $existingAttendances = collect();
 
-        return view('pages.attendances.create', compact('users', 'sessionTypes', 'statuses', 'isBatch'));
+        if ($request->filled('date') && $request->filled('attendance_session_id')) {
+            $query = User::query()->with(['division', 'batch']);
+
+            if ($request->filled('division_id')) {
+                $query->where('division_id', $request->division_id);
+            }
+
+            if ($request->filled('batch_id')) {
+                $query->where('batch_id', $request->batch_id);
+            }
+
+            $users = $query->orderBy('name')->get();
+
+            // Check for existing attendance records
+            $existingAttendances = Attendance::where('date', $request->date)
+                ->where('attendance_session_id', $request->attendance_session_id)
+                ->whereIn('user_id', $users->pluck('id'))
+                ->get()
+                ->keyBy('user_id');
+        }
+
+        return view('pages.attendances.create', compact(
+            'divisions',
+            'batches',
+            'sessionTypes',
+            'statuses',
+            'users',
+            'existingAttendances'
+        ));
     }
 
     /**
@@ -81,62 +110,52 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        // Determine if this is a batch operation
-        $isBatch = $request->has('user_ids') && is_array($request->user_ids);
+        $request->validate([
+            'user_ids'              => 'required|array',
+            'user_ids.*'            => 'exists:users,id',
+            'status'                => 'required|array',
+            'attendance_session_id' => 'required|exists:attendance_sessions,id',
+            'date'                  => 'required|date',
+        ]);
 
-        if ($isBatch) {
-            $validator = Validator::make($request->all(), [
-                'user_ids'   => 'required|array',
-                'user_ids.*' => 'exists:users,id',
-                'session_id' => 'required|exists:session_types,id',
-                'date'       => 'required|date',
-                'status'     => 'required|in:hadir,izin,sakit,terlambat,piket',
-                'notes'      => 'nullable|string|max:255',
-            ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'user_id'    => 'required|exists:users,id',
-                'session_id' => 'required|exists:session_types,id',
-                'date'       => 'required|date',
-                'status'     => 'required|in:hadir,izin,sakit,terlambat,piket',
-                'notes'      => 'nullable|string|max:255',
-            ]);
-        }
+        $date      = $request->date;
+        $sessionId = $request->attendance_session_id;
+        $userIds   = $request->user_ids;
+        $statuses  = $request->status;
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // Get the currently authenticated user's ID
+        $recordedBy = auth()->id();
 
-        if ($isBatch) {
-            // Batch creation
-            foreach ($request->user_ids as $userId) {
-                Attendance::create([
-                    'user_id'     => $userId,
-                    'session_id'  => $request->session_id,
-                    'date'        => $request->date,
-                    'status'      => $request->status,
-                    'notes'       => $request->notes,
-                    'recorded_by' => Auth::id(),
-                ]);
+        // Get existing attendance records for this date and session
+        $existingAttendances = Attendance::where('date', $date)
+            ->where('attendance_session_id', $sessionId)
+            ->whereIn('user_id', $userIds)
+            ->get()
+            ->keyBy('user_id');
+
+        foreach ($userIds as $userId) {
+            if (isset($statuses[$userId])) {
+                if ($existingAttendances->has($userId)) {
+                    // Update existing record
+                    $existingAttendances[$userId]->update([
+                        'status'      => $statuses[$userId],
+                        'recorded_by' => $recordedBy,
+                    ]);
+                } else {
+                    // Create new record
+                    Attendance::create([
+                        'user_id'               => $userId,
+                        'attendance_session_id' => $sessionId,
+                        'date'                  => $date,
+                        'status'                => $statuses[$userId],
+                        'recorded_by'           => $recordedBy,
+                    ]);
+                }
             }
-            $message = 'Batch attendances created successfully.';
-        } else {
-            // Single creation
-            Attendance::create([
-                'user_id'     => $request->user_id,
-                'session_id'  => $request->session_id,
-                'date'        => $request->date,
-                'status'      => $request->status,
-                'notes'       => $request->notes,
-                'recorded_by' => Auth::id(),
-            ]);
-            $message = 'Attendance created successfully.';
         }
 
         return redirect()->route('attendances.index')
-            ->with('success', $message);
+            ->with('success', 'Data absensi berhasil disimpan.');
     }
 
     /**
@@ -167,11 +186,11 @@ class AttendanceController extends Controller
     public function update(Request $request, Attendance $attendanceRecord)
     {
         $validator = Validator::make($request->all(), [
-            'user_id'    => 'required|exists:users,id',
-            'session_id' => 'required|exists:session_types,id',
-            'date'       => 'required|date',
-            'status'     => 'required|in:hadir,izin,sakit,terlambat,piket',
-            'notes'      => 'nullable|string|max:255',
+            'user_id'               => 'required|exists:users,id',
+            'attendance_session_id' => 'required|exists:session_types,id',
+            'date'                  => 'required|date',
+            'status'                => 'required|in:hadir,izin,sakit,terlambat,piket',
+            'notes'                 => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -181,11 +200,11 @@ class AttendanceController extends Controller
         }
 
         $attendanceRecord->update([
-            'user_id'    => $request->user_id,
-            'session_id' => $request->session_id,
-            'date'       => $request->date,
-            'status'     => $request->status,
-            'notes'      => $request->notes,
+            'user_id'               => $request->user_id,
+            'attendance_session_id' => $request->attendance_session_id,
+            'date'                  => $request->date,
+            'status'                => $request->status,
+            'notes'                 => $request->notes,
         ]);
 
         return redirect()->route('attendances.index')

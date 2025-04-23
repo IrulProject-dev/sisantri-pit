@@ -19,7 +19,6 @@ class Attendance extends Model
         'attendance_session_id',
         'date',
         'status',
-        'notes',
         'recorded_by',
     ];
 

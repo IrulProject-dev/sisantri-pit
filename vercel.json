@@ -26,10 +26,6 @@
         {
             "src": "/(.*)",
             "dest": "/api/index.php"
-        },
-        {
-            "src": "/resources",
-            "dest": "/resources"
         }
     ],
     "outputDirectory": "public"
