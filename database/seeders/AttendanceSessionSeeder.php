@@ -11,7 +11,7 @@ class AttendanceSessionSeeder extends Seeder
      */
     public function run(): void
     {
-        $sessionTypes = [
+        $attendanceSessions = [
             [
                 'name'       => 'Produktif 1',
                 'start_time' => '07:00:00',
@@ -34,8 +34,8 @@ class AttendanceSessionSeeder extends Seeder
             ],
         ];
 
-        foreach ($sessionTypes as $sessionType) {
-            AttendanceSession::create($sessionType);
+        foreach ($attendanceSessions as $attendanceSession) {
+            AttendanceSession::create($attendanceSession);
         }
     }
 }

@@ -17,36 +17,38 @@
                             <tr>
                                 <th scope="row"
                                     class="px-6 py-4 text-sm font-medium text-gray-900 text-left bg-gray-50 w-1/4">ID</th>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $sessionType->id }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $attendanceSession->id }}</td>
                             </tr>
                             <tr>
                                 <th scope="row" class="px-6 py-4 text-sm font-medium text-gray-900 text-left bg-gray-50">
                                     Nama</th>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $sessionType->name }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $attendanceSession->name }}</td>
                             </tr>
                             <tr>
                                 <th scope="row" class="px-6 py-4 text-sm font-medium text-gray-900 text-left bg-gray-50">
                                     Waktu Mulai</th>
                                 <td class="px-6 py-4 text-sm text-gray-500">
-                                    {{ $sessionType->start_time ? $sessionType->start_time->format('H:i') : '-' }}</td>
+                                    {{ $attendanceSession->start_time ? $attendanceSession->start_time->format('H:i') : '-' }}
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row" class="px-6 py-4 text-sm font-medium text-gray-900 text-left bg-gray-50">
                                     Waktu Selesai</th>
                                 <td class="px-6 py-4 text-sm text-gray-500">
-                                    {{ $sessionType->end_time ? $sessionType->end_time->format('H:i') : '-' }}</td>
+                                    {{ $attendanceSession->end_time ? $attendanceSession->end_time->format('H:i') : '-' }}
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row" class="px-6 py-4 text-sm font-medium text-gray-900 text-left bg-gray-50">
                                     Dibuat Pada</th>
                                 <td class="px-6 py-4 text-sm text-gray-500">
-                                    {{ $sessionType->created_at->format('d-m-Y H:i:s') }}</td>
+                                    {{ $attendanceSession->created_at->format('d-m-Y H:i:s') }}</td>
                             </tr>
                             <tr>
                                 <th scope="row" class="px-6 py-4 text-sm font-medium text-gray-900 text-left bg-gray-50">
                                     Diperbarui Pada</th>
                                 <td class="px-6 py-4 text-sm text-gray-500">
-                                    {{ $sessionType->updated_at->format('d-m-Y H:i:s') }}</td>
+                                    {{ $attendanceSession->updated_at->format('d-m-Y H:i:s') }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -55,9 +57,9 @@
                 <div class="mt-6 flex items-center justify-end space-x-3">
                     <a href="{{ route('attendance-sessions.index') }}"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Kembali</a>
-                    <a href="{{ route('attendance-sessions.edit', $sessionType->id) }}"
+                    <a href="{{ route('attendance-sessions.edit', $attendanceSession->id) }}"
                         class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</a>
-                    <form action="{{ route('attendance-sessions.destroy', $sessionType->id) }}" method="POST"
+                    <form action="{{ route('attendance-sessions.destroy', $attendanceSession->id) }}" method="POST"
                         class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus tipe sesi ini?');">
                         @csrf
                         @method('DELETE')

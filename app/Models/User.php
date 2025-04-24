@@ -106,7 +106,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the attendancerecorded by this user (as a mentor).
+     * Get the attendance recorded by this user (as a mentor).
      */
     public function recordAttendances(): HasMany
     {
