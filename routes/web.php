@@ -41,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('divisions', DivisionController::class);
         Route::resource('santris', SantriController::class);
         Route::resource('attendance-sessions', AttendanceSessionController::class);
+        Route::get('/attendances/export', [AttendanceController::class, 'export'])->name('attendances.export');
         Route::resource('attendances', AttendanceController::class);
     });
 
