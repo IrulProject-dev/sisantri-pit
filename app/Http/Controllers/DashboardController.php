@@ -9,6 +9,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+        if ($user->role === 'admin' || $user->role === 'superadmin') {
         // Get real counts from database
         $santriCount   = User::where('role', 'santri')->count();
         $divisionCount = Division::count();
@@ -21,5 +24,16 @@ class DashboardController extends Controller
             ->get();
 
         return view('pages.dashboard', compact('santriCount', 'divisionCount', 'batchCount', 'recentSantris'));
+        }
+        if ($user->role === 'santri') {
+        // Tampilkan halaman dashboard khusus santri
+        return view('pages.dashboardSantri');
+        }
+        if ($user->role === 'mentor') {
+            return view('pages.dashboardMentor');
+        }
+
+        // Kalau ada role lain atau error, redirect atau abort
+        abort(403, 'Unauthorized');
     }
 }
