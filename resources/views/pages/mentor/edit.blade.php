@@ -9,20 +9,11 @@
             <p class="text-gray-600">Silakan edit form di bawah ini untuk memperbarui data santri.</p>
         </div>
         <div class="bg-white border border-border shadow-sm rounded-lg p-6">
-            <form action="{{ route('santris.update', $santri->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('mentors.update', $santri->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- NIS -->
-                    <div>
-                        <label for="nis" class="block text-sm font-medium text-gray-700 mb-1">NIS</label>
-                        <input type="text" name="nis" id="nis" value="{{ old('nis', $santri->nis) }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm"
-                            placeholder="Nomor Induk Santri" required>
-                        @error('nis')
-                            <p class="text-red-500 text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </div>
+
 
                     <!-- Nama -->
                     <div>
@@ -64,19 +55,6 @@
                         @enderror
                     </div>
 
-                    <!-- Tanggal Lahir -->
-                    <div>
-                        <label for="date_of_birth" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
-                            Lahir</label>
-                        <input type="date" name="date_of_birth" id="date_of_birth"
-                            value="{{ old('date_of_birth', $santri->date_of_birth ? date('Y-m-d', strtotime($santri->date_of_birth)) : '') }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm"
-                            required>
-                        @error('date_of_birth')
-                            <p class="text-red-500 text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </div>
-
                     <!-- Role -->
                     <div>
                         <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role</label>
@@ -94,6 +72,9 @@
                             </option>
                         </select>
                     </div>
+
+
+
 
                     <!-- Alamat -->
                     <div class="md:col-span-2">
@@ -192,60 +173,13 @@
                         @enderror
                     </div>
 
-                    <!-- Data Orang Tua -->
-                    <div class="md:col-span-2 mt-4">
-                        <h3 class="text-lg font-medium text-gray-900 mb-3">Data Orang Tua</h3>
-                    </div>
 
-                    <!-- Nama Ayah -->
-                    <div>
-                        <label for="father_name" class="block text-sm font-medium text-gray-700 mb-1">Nama Ayah</label>
-                        <input type="text" name="father_name" id="father_name"
-                            value="{{ old('father_name', $santri->father_name) }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm"
-                            placeholder="Nama lengkap ayah" required>
-                        @error('father_name')
-                            <p class="text-red-500 text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <!-- No. Telepon Ayah -->
-                    <div>
-                        <label for="father_phone" class="block text-sm font-medium text-gray-700 mb-1">No. Telepon
-                            Ayah</label>
-                        <input type="text" name="father_phone" id="father_phone"
-                            value="{{ old('father_phone', $santri->father_phone) }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm"
-                            placeholder="Nomor telepon ayah" required>
-                        @error('father_phone')
-                            <p class="text-red-500 text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <!-- Nama Ibu -->
-                    <div>
-                        <label for="mother_name" class="block text-sm font-medium text-gray-700 mb-1">Nama Ibu</label>
-                        <input type="text" name="mother_name" id="mother_name"
-                            value="{{ old('mother_name', $santri->mother_name) }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm"
-                            placeholder="Nama lengkap ibu" required>
-                        @error('mother_name')
-                            <p class="text-red-500 text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <!-- No. Telepon Ibu -->
-                    <div>
-                        <label for="mother_phone" class="block text-sm font-medium text-gray-700 mb-1">No. Telepon
-                            Ibu</label>
-                        <input type="text" name="mother_phone" id="mother_phone"
-                            value="{{ old('mother_phone', $santri->mother_phone) }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-foreground focus:ring-1 shadow-sm"
-                            placeholder="Nomor telepon ibu" required>
-                        @error('mother_phone')
-                            <p class="text-red-500 text-xs mt-1">*{{ $message }}</p>
-                        @enderror
-                    </div>
+
+
+
                 </div>
 
                 <div class="flex items-center justify-end space-x-3 mt-6">

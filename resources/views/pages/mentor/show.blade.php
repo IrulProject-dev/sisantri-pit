@@ -35,10 +35,7 @@
                         <h2 class="text-xl font-semibold text-gray-900 mb-4">{{ $santri->name }}</h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-sm text-gray-600">NIS:</p>
-                                <p class="text-base font-medium">{{ $santri->nis }}</p>
-                            </div>
+
 
                             <div>
                                 <p class="text-sm text-gray-600">Status:</p>
@@ -92,38 +89,13 @@
                     </div>
                 </div>
 
-                <!-- Data Orang Tua -->
-                <div class="mt-8 border-t pt-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Data Orang Tua</h3>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-sm text-gray-600">Nama Ayah:</p>
-                            <p class="text-base font-medium">{{ $santri->father_name }}</p>
-                        </div>
-
-                        <div>
-                            <p class="text-sm text-gray-600">No. Telepon Ayah:</p>
-                            <p class="text-base font-medium">{{ $santri->father_phone }}</p>
-                        </div>
-
-                        <div>
-                            <p class="text-sm text-gray-600">Nama Ibu:</p>
-                            <p class="text-base font-medium">{{ $santri->mother_name }}</p>
-                        </div>
-
-                        <div>
-                            <p class="text-sm text-gray-600">No. Telepon Ibu:</p>
-                            <p class="text-base font-medium">{{ $santri->mother_phone }}</p>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Tombol Aksi -->
                     <div class="mt-8 flex justify-end space-x-3">
                         <a href="{{ route('santris.index') }}"
                             class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Kembali</a>
-                        <a href="{{ route('santris.edit', $santri->id) }}"
+                        <a href="{{ route('mentors.edit', $santri->id) }}"
                             class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</a>
                     </div>
 
