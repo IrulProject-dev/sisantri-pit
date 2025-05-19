@@ -20,7 +20,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('admin', function ($user) {
-            return $user->role === 'admin'; // Or use a permission check if using Spatie
+            return $user->role === 'admin' || $user->role === 'superadmin'; // Or use a permission check if using Spatie
+        });
+
+        Gate::define('mentor', function ($user) {
+            return $user->role === 'mentor'; // Or use a permission check if using Spatie
+        });
+
+        Gate::define('santri', function ($user) {
+            return $user->role === 'santri'; // Or use a permission check if using Spatie
         });
     }
 }

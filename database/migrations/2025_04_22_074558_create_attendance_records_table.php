@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         // First create the attendance_status enum type if using PostgreSQL
-        DB::statement("CREATE TYPE attendance_status AS ENUM ('hadir', 'izin', 'sakit', 'terlambat', 'piket')");
+        // DB::statement("CREATE TYPE attendance_status AS ENUM ('hadir', 'izin', 'sakit', 'terlambat', 'piket')");
 
         Schema::create('attendance_records', function (Blueprint $table) {
             $table->id();

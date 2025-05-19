@@ -9,10 +9,18 @@
                 <h1 class="text-2xl font-bold text-gray-900">Daftar Santri</h1>
                 <p class="text-gray-600">Kelola data santri Pondok IT Indonesia.</p>
             </div>
-            <a href="{{ route('santris.create') }}"
-                class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">
-                Tambah Santri
-            </a>
+            @if (auth()->user()->role == 'superadmin')
+                <a href="{{ route('santris.create') }}"
+                    class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">
+                    Tambah Santri
+                </a>
+
+                <a href="{{ route('mentors.create') }}"
+                    class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90">
+                    Tambah mentor
+                </a>
+            @endif
+
         </div>
 
         @if (session('success'))
@@ -26,6 +34,18 @@
             <div class="p-4">
                 <h2 class="text-lg font-medium text-gray-900 mb-3">Filter Santri</h2>
                 <form action="{{ route('santris.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                        <select name="role" id="role"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:ring-1">
+                            <option value="">Semua Role</option>
+                            <option value="santri" {{ request('role') == 'santri' ? 'selected' : '' }}>Santri</option>
+                            <option value="mentor" {{ request('role') == 'mentor' ? 'selected' : '' }}>Mentor</option>
+                            <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="superadmin" {{ request('role') == 'superadmin' ? 'selected' : '' }}>Superadmin
+                            </option>
+                        </select>
+                    </div>
                     <div>
                         <label for="division_id" class="block text-sm font-medium text-gray-700 mb-1">Jurusan</label>
                         <select name="division_id" id="division_id"
@@ -92,10 +112,16 @@
                                 class="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Status
                             </th>
-                            <th scope="col"
-                                class="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Aksi
-                            </th>
+                            @if (auth()->user()->role == 'superadmin')
+                                <th scope="col"
+                                    class="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Role
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Aksi
+                                </th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -119,50 +145,66 @@
                                         {{ $santri->status === 'active' ? 'Aktif' : 'Tidak Aktif' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <div class="flex space-x-2">
-                                        <a href="{{ route('santris.show', $santri->id) }}"
-                                            class="text-blue-600 hover:text-blue-900 relative group">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                                </path>
-                                            </svg>
-                                            <span
-                                                class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs font-medium text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">Lihat</span>
-                                        </a>
-                                        <a href="{{ route('santris.edit', $santri->id) }}"
-                                            class="text-yellow-600 hover:text-yellow-900 relative group">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                                </path>
-                                            </svg>
-                                            <span
-                                                class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs font-medium text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">Edit</span>
-                                        </a>
-                                        <form action="{{ route('santris.destroy', $santri->id) }}" method="POST"
-                                            class="inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900 relative group"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus santri ini?')">
+                                @if (auth()->user()->role == 'superadmin')
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $santri->role }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex space-x-2">
+                                            @php
+                                                $userRole = auth()->user()->role;
+                                                $targetRole = $santri->role;
+
+                                                $editRoute = match ($targetRole) {
+                                                    'mentor' => route('mentors.edit', $santri->id),
+                                                    'santri' => route('santris.edit', $santri->id),
+                                                    'admin' => route('admins.edit', $santri->id),
+                                                    'superadmin' => route('superadmins.edit', $santri->id),
+                                                    default => '#',
+                                                };
+
+                                                $showRoute = match ($targetRole) {
+                                                    'mentor' => route('mentors.show', $santri->id),
+                                                    'santri' => route('santris.show', $santri->id),
+                                                    'admin' => route('admins.show', $santri->id),
+                                                    'superadmin' => route('superadmins.show', $santri->id),
+                                                    default => '#',
+                                                };
+                                            @endphp
+                                            @if ($userRole === 'superadmin')
+                                                <a href="{{ $editRoute }}"
+                                                    class="text-yellow-600 hover:text-yellow-900">Edit</a>
+                                                <a href="{{ $showRoute }}"
+                                                    class="text-blue-600 hover:text-blue-900">Show</a>
+                                            @endif
+                                            {{-- <a href="{{ $showRoute }}"
+                                                class="text-blue-600 hover:text-blue-900 relative group">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                                     </path>
                                                 </svg>
                                                 <span
-                                                    class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs font-medium text-white bg-red-600 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">Hapus</span>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+                                                    class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs font-medium text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">Lihat</span>
+                                            </a>
+
+                                            <a href="{{ $editRoute }}"
+                                                class="text-yellow-600 hover:text-yellow-900 relative group">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                                    </path>
+                                                </svg>
+                                                <span
+                                                    class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs font-medium text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">Edit</span>
+                                            </a> --}}
+                                        </div>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
