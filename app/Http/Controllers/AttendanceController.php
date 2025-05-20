@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
@@ -8,6 +9,10 @@ use App\Models\Division;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\AttendanceExport;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class AttendanceController extends Controller
 {
@@ -40,7 +45,6 @@ class AttendanceController extends Controller
             $query->where('date', $request->date);
         } else {
             $query->where('date', date('Y-m-d'));
-
         }
 
         // Filter by session
@@ -163,9 +167,18 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendanceRecord)
     {
-        $attendanceRecord->load(['user', 'session', 'recorder']);
+        $attendanceRecord->load(['user', 'attendanceSession', 'recorder', 'user.division', 'user.batch']);
 
-        return view('pages.attendances.show', compact('attendanceRecord'));
+        $recentAttendances = Attendance::where('user_id', $attendanceRecord->user_id)
+            ->with(['attendanceSession', 'recorder'])
+            ->orderBy('date', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('pages.attendances.show', [
+            'attendanceRecord' => $attendanceRecord,
+            'recentAttendances' => $recentAttendances
+        ]);
     }
 
     /**
@@ -220,5 +233,41 @@ class AttendanceController extends Controller
 
         return redirect()->route('attendances.index')
             ->with('success', 'Attendance deleted successfully.');
+    }
+
+    public function export(Request $request)
+    {
+    //   dd($request->all());
+
+        $attendances = Attendance::query()
+            ->with(['user', 'user.division', 'user.batch', 'attendanceSession'])
+            ->when($request->division_id, function ($query) use ($request) {
+                $query->whereHas('user', function ($q) use ($request) {
+                    $q->where('division_id', $request->division_id);
+                });
+            })
+            ->when($request->batch_id, function ($query) use ($request) {
+                $query->whereHas('user', function ($q) use ($request) {
+                    $q->where('batch_id', $request->batch_id);
+                });
+            })
+            ->when($request->date, function ($query) use ($request) {
+                $query->where('date', $request->date);
+            })
+            ->when($request->attendance_session_id, function ($query) use ($request) {
+                $query->where('attendance_session_id', $request->attendance_session_id);
+            })
+            ->orderBy('date')
+            ->get();
+
+        $filters = [
+            'division' => $request->division_id ? Division::find($request->division_id)->name : 'Semua Divisi',
+            'batch' => $request->batch_id ? Batch::find($request->batch_id)->name : 'Semua Angkatan',
+            'date' => $request->date ? \Carbon\Carbon::parse($request->date)->format('d M Y') : 'Semua Tanggal',
+            'session' => $request->attendance_session_id ? AttendanceSession::find($request->attendance_session_id)->name : 'Semua Sesi'
+        ];
+
+        return Excel::download(new AttendanceExport($attendances, $filters), 'users.xlsx');
+
     }
 }

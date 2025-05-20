@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // First create the attendance_status enum type if using PostgreSQL
+        // DB::statement("CREATE TYPE attendance_status AS ENUM ('hadir', 'izin', 'sakit', 'terlambat', 'piket')");
         // First create the attendance_status enum type if using PostgreSQL and it doesn't exist
         if (DB::connection()->getDriverName() === 'pgsql') {
             DB::statement("

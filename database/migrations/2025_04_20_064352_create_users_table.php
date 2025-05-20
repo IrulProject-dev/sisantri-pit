@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('batch_id')->nullable()->constrained('batches')->onDelete('restrict');
             $table->foreignId('division_id')->nullable()->constrained('divisions')->onDelete('restrict');
-            $table->enum('role', ['admin', 'mentor', 'santri', 'santri_mentor']);
+            $table->enum('role', ['superadmin', 'admin', 'mentor', 'santri', 'santri_mentor']);
             $table->date('date_of_birth')->nullable()->comment('For santri role');
             $table->enum('gender', ['male', 'female'])->nullable()->comment('For santri role');
             $table->text('address')->nullable();
