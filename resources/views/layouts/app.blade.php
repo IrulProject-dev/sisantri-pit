@@ -10,7 +10,11 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <!-- Preline UI -->
     <link href="https://cdn.jsdelivr.net/npm/preline@2.0.2/dist/preline.min.css" rel="stylesheet">
-    <!-- Vite -->
+    <!--alpinejs-->
+    <link rel="stylesheet" href="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.css">
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Custom Styles -->
     @yield('styles')
