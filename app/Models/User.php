@@ -90,6 +90,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user is an superadmin.
+     */
+    public function isSuperAdmin()
+    {
+        return $this->role === 'superadmin';
+    }
+
+    /**
      * Check if user is an admin.
      */
     public function isAdmin()
@@ -102,14 +110,14 @@ class User extends Authenticatable
      */
     public function attendanceRecords(): HasMany
     {
-        return $this->hasMany(AttendanceRecord::class);
+        return $this->hasMany(Attendance::class);
     }
 
     /**
-     * Get the attendance records recorded by this user (as a mentor).
+     * Get the attendance recorded by this user (as a mentor).
      */
     public function recordAttendances(): HasMany
     {
-        return $this->hasMany(AttendanceRecord::class);
+        return $this->hasMany(Attendance::class);
     }
 }
