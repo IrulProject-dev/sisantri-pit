@@ -17,4 +17,9 @@ class Division extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function assessmentTemplates()
+    {
+        return $this->hasMany(AssessmentTemplate::class);
+    }
 }

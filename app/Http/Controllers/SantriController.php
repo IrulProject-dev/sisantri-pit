@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\Division;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,27 +14,40 @@ class SantriController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $query = User::where('role', 'santri');
+{
+    $user = auth()->user();
 
-        // Apply division filter if provided
-        if ($request->has('division_id') && $request->division_id != '') {
-            $query->where('division_id', $request->division_id);
-        }
-
-        // Apply batch filter if provided
-        if ($request->has('batch_id') && $request->batch_id != '') {
-            $query->where('batch_id', $request->batch_id);
-        }
-
-        $santris = $query->latest()->paginate(10)->withQueryString();
-
-        // Get divisions and batches for the filter dropdowns
-        $divisions = Division::all();
-        $batches   = Batch::all();
-
-        return view('pages.santris.index', compact('santris', 'divisions', 'batches'));
+    // Cek role
+    if ($user->role === 'superadmin') {
+        $query = User::query(); // ambil semua role
+    } elseif ($user->role === 'admin') {
+        $query = User::where('role', 'santri'); // hanya santri
+    } else {
+        abort(403, 'Anda tidak memiliki akses.');
     }
+
+    if ($request->has('role') && $request->role != '') {
+        $query->where('role', $request->role);
+    }
+
+    // Apply division filter if provided
+    if ($request->has('division_id') && $request->division_id != '') {
+        $query->where('division_id', $request->division_id);
+    }
+
+    // Apply batch filter if provided
+    if ($request->has('batch_id') && $request->batch_id != '') {
+        $query->where('batch_id', $request->batch_id);
+    }
+
+    $santris = $query->latest()->paginate(10)->withQueryString();
+
+    // Get divisions and batches for the filter dropdowns
+    $divisions = Division::all();
+    $batches   = Batch::all();
+
+    return view('pages.santris.index', compact('santris', 'divisions', 'batches'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -72,13 +86,13 @@ class SantriController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('pages.santris.create')->withErrors($validator)->withInput();
+            return redirect()->route('santris.create')->withErrors($validator)->withInput();
         }
 
         // Handle photo upload if provided
         $data             = $request->all();
         $data['role']     = 'santri';   // Ensure role is set to santri
-        $data['password'] = 'password'; // Set default password.
+        $data['password'] = Hash::make(\Carbon\Carbon::parse($request->date_of_birth)->format('dmY')); // Set default password.
 
         if ($request->hasFile('photo')) {
             $photo    = $request->file('photo');
@@ -132,6 +146,7 @@ class SantriController extends Controller
             'name'          => 'required|string|max:255',
             'gender'        => 'required|in:male,female',
             'date_of_birth' => 'required|date',
+            'role'          => 'required|in:superadmin,admin,mentor,santri',
             'address'       => 'required|string',
             'phone'         => 'required|string|max:15',
             'father_name'   => 'required|string|max:255',
@@ -150,7 +165,6 @@ class SantriController extends Controller
 
         // Handle photo upload if provided
         $data         = $request->all();
-        $data['role'] = 'santri'; // Ensure role is set to santri
 
         if ($request->hasFile('photo')) {
             // Delete old photo if exists

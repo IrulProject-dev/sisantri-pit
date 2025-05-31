@@ -90,7 +90,7 @@
 
             @foreach ($navigationItems as $item)
                 @php
-                    $isActive = request()->routeIs($item['route'] . '*');
+                    $isActive = isset($item['route']) && request()->routeIs($item['route'] . '*');
                 @endphp
                 <a href="{{ isset($item['route']) ? route($item['route']) : '#' }}"
                     class="block px-3 py-2 rounded-md text-base font-medium {{ $isActive ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-secondary' }}">

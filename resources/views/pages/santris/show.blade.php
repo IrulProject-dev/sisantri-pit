@@ -3,6 +3,7 @@
 @section('title', 'Detail Santri - SiSantri')
 
 @section('content')
+
     <div class="container mx-auto">
         <div class="mb-6">
             <h1 class="text-2xl font-bold text-gray-900">Detail Santri</h1>
@@ -119,18 +120,14 @@
                 </div>
 
                 <!-- Tombol Aksi -->
-                <div class="mt-8 flex justify-end space-x-3">
-                    <a href="{{ route('santris.index') }}"
-                        class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Kembali</a>
-                    <a href="{{ route('santris.edit', $santri->id) }}"
-                        class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</a>
-                    <form action="{{ route('santris.destroy', $santri->id) }}" method="POST" class="inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                            onclick="return confirm('Apakah Anda yakin ingin menghapus santri ini?')">Hapus</button>
-                    </form>
-                </div>
+                    <div class="mt-8 flex justify-end space-x-3">
+                        <a href="{{ route('santris.index') }}"
+                            class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Kembali</a>
+                        <a href="{{ route('santris.edit', $santri->id) }}"
+                            class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Edit</a>
+                    </div>
+
+
             </div>
         </div>
     </div>
