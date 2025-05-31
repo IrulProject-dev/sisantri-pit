@@ -14,6 +14,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\ImporSantriController;
 use App\Http\Controllers\Mentor\CreateMentorController;
 use App\Http\Controllers\Mentor\RoleMentorController;
 use App\Http\Controllers\ReportController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\SantriController;
 use App\Http\Controllers\Superadmin\SuperAdminController;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -66,6 +68,12 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('report', ReportController::class);
         Route::get('report/{assessment}/pdf', [ReportController::class, 'downloadPdf'])->name('report.downloadPdf');
         Route::post('report/{assessment}/send-email', [ReportController::class, 'sendEmail'])->name('report.sendEmail');
+
+    Route::get('/impor-santri', [ImporSantriController::class, 'index'])
+        ->name('impor-santri.index');
+
+    Route::post('/impor-santri/lokal', [ImporSantriController::class, 'imporLokal'])
+        ->name('impor-santri.lokal');
     });
 
     // Mentor only

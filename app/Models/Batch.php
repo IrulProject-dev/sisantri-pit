@@ -14,8 +14,8 @@ class Batch extends Model
         'graduation_date',
     ];
 
-    public function santris()
+    public function Users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'batch_id');
     }
 }

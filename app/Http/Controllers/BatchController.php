@@ -84,8 +84,16 @@ class BatchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Batch $batch)
+    public function destroy($id)
     {
+        $batch = \App\Models\Batch::findOrFail($id);
+
+        // Cek apakah ada user yang terkait dengan batch ini
+        if ($batch->users()->count() > 0) {
+            return redirect()->route('batches.index')
+                ->with('error', 'Tidak dapat menghapus angkatan karena masih ada santri yang terkait.');
+        }
+
         $batch->delete();
 
         return redirect()->route('batches.index')->with('success', 'Angkatan berhasil dihapus');

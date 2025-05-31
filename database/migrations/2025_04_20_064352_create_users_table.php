@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('role', ['superadmin', 'admin', 'mentor', 'santri', 'santri_mentor']);
             $table->date('date_of_birth')->nullable()->comment('For santri role');
             $table->enum('gender', ['male', 'female'])->nullable()->comment('For santri role');
+            $table->string('place_of_birth')->nullable();
             $table->text('address')->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('father_name')->nullable()->comment('For santri role');
